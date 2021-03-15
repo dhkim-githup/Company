@@ -1,0 +1,116 @@
+#Disable crontab mail
+MAILTO=""
+
+#crontab 1-mm(0~59) , 2-hh(0~24) , 3-day(1~31), 4-mm(1~12) , 5-day of week(0~6)
+
+# Md_to_Message_Comment
+0 9,13,18 * * 1-5 /user/home/mro/db_demon/Md_to_Message_Comment.sh
+
+# Search_Word_Popular_Level
+3 6 * * 1 /user/home/mro/db_demon/Search_Word_Popular_Level.sh
+
+# Demon_5_minute
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /user/home/mro/db_demon/Demon_5_minute.sh
+
+# Demon_10_minute
+0,10,20,30,40,50 * * * * /user/home/mro/db_demon/Demon_10_minute.sh
+
+# Demon_inicis_tra
+0 15 * * * /user/home/mro/db_demon/Demon_inicis_tra.sh
+
+# Demon_econ  -- moved to 172.16.3.23 by kimjs
+0,10,20,30,40,50 * * * * /user/home/mro/db_demon/Demon_econ_sco_req.sh
+5,15,25,35,45,55 * * * * /user/home/mro/db_demon/Demon_econ_sco_reg.sh
+
+
+# Demon_ebill --stopped by kimjs
+10 * * * * /user/home/mro/db_demon/Demon_ebill_alive_check.sh
+
+# Demon_skcnc_stat_check
+0,20,40 * * * * /user/home/mro/db_demon/Demon_skcnc_stat_check.sh
+
+# Demon_30_minute
+4,34 * * * * /user/home/mro/db_demon/Demon_30_minute.sh
+14,44 * * * * /user/home/mro/db_demon/mproject/mprj_30_minute.sh
+
+# Demon_1_hour
+0 * * * * /user/home/mro/db_demon/Demon_1_hour.sh
+
+# Demon_20_minute
+0,20,40 * * * * /user/home/mro/db_demon/Demon_asp_comp_20m.sh
+
+# Demon_4_aday
+0 8,11,13,15,17 * * * /user/home/mro/db_demon/Demon_4_aday.sh
+
+# Demon_Pm12
+20 12 * * * /user/home/mro/db_demon/Demon_Pm12.sh
+
+# Demon_Pm23_hour
+0 23 * * * /user/home/mro/db_demon/Demon_Pm23_hour.sh
+
+# Demon_Am2
+10 2 * * * /user/home/mro/db_demon/Demon_Am2.sh
+
+# Demon_Am3
+10 3 * * * /user/home/mro/db_demon/Demon_Am3.sh
+
+#Demon_Am9
+0 7 * * * /user/home/mro/db_demon/Demon_Am9.sh
+
+#Demon_sco_stop_payment_1_month
+58 23 1 * * /user/home/mro/db_demon/Demon_sco_stop_payment_1_month.sh
+
+#Demon_bond_alert_weekly , 2020.08.04 dhkim not use
+#30 3 * * 4 /user/home/mro/db_demon/Demon_bond_alert_weekly.sh
+
+#Demon_make_acco_open_market
+50 4 * * * /user/home/mro/db_demon/Demon_make_acco_open_market.sh
+
+#Demon_make_cal_mng
+55 3 12 * * /user/home/mro/db_demon/Demon_make_cal_mng.sh
+
+#sebang_Demon
+0 * * * * /user/home/mro/db_demon/sebang/sebang_Demon.sh
+
+#Demon_bond_alert_day
+30 3 * * 1,2,3,4,5 /user/home/mro/db_demon/Demon_bond_alert_day.sh
+
+#Demon_china_mail
+55 8 * * * /user/home/mro/db_demon/Demon_china_mail.sh
+
+#GW_TO_METS
+#10 12 * * * /user/home/mro/db_demon/GW_TO_METS.sh
+#30 0 * * * /user/home/mro/db_demon/GW_TO_METS.sh
+
+#SUPP_OFFICE_DEPOT
+33,13,23,33,43,53 * * * * /user/home/mro/db_demon/Demon_Supp_Demon.sh
+
+#Demon_skn_1month
+0 9 28 * * /user/home/mro/db_demon/Demon_skn_1month.sh
+0 10 28 * * /user/home/mro/db_demon/mproject/mprj_26.sh
+
+# Demon_collection_sm_full -- moved to 172.16.3.23 by kimjs
+5 0 * * * /user/home/mro/db_demon/Demon_collection_sm_full.sh
+
+#FIMS Send Demon
+5,35 * * * * /user/home/mro/db_demon/skt_fims/FimsSendDemon.sh
+
+#FIMS Read Demon
+3,13,23,33,43,53 * * * * /user/home/mro/db_demon/skt_fims/FimsReadDemon.sh
+
+#FIMS SEND DEMON 10Min
+8,18,28,38,48,58 * * * * /user/home/mro/db_demon/skt_fims/FimsSendDemon10Min.sh
+
+#Demon Test Use this as test
+# 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /user/home/mro/db_demon/Demon_Test.sh
+
+#SKT OFFICE DEMON 20min
+0,20,40 * * * * /user/home/mro/db_demon/skt_office/skt_office_20m.sh
+
+#Demon_sap_if_adocu_buy
+0 8,20 * * * /user/home/mro/db_demon/Demon_sap_if_adocu_buy.sh
+
+#Demon_sell_buy_dati
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * /user/home/mro/db_demon/Demon_sell_buy_dati.sh
+
+
