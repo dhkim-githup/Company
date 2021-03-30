@@ -1,6 +1,7 @@
 /*
  * 매일 1시간에 1번씩 ASP 고객사 자동 완료처리 데몬
- * 2021.03.05 dhkim , 쿼리에 'AND td.comp_dati_cust >= SYSDATE - 300' 추가하여 속도향상 
+ * 2021.03.05 dhkim , 쿼리에 'AND td.comp_dati_cust >= SYSDATE - 300' 추가하여 속도향상
+ * 2021.03.30 dhkim , 쿼리에 'AND td.comp_dati_cust >= SYSDATE - 300' -> td.comp_dati 변경 , asp 변경, 쿼리 한부분 삭제처리  , maps 부분 삭제 
  */
 
 import java.sql.Connection;
@@ -108,21 +109,21 @@ public class  Demon_asp_comp_20m
     			sbSelList.append("         ,NULL asp_list_num                                                                            ").append("\n");
     			sbSelList.append("     FROM ords_dtl od                                                                                  ").append("\n");
     			sbSelList.append("         ,tra_dtl td                                                                                   ").append("\n");
-    			sbSelList.append("         ,cust_dtl cd                                                                                  ").append("\n");
-    			sbSelList.append("         ,enpri_info ei                                                                                ").append("\n");
-    			sbSelList.append("         ,enpri_dtl ed                                                                                 ").append("\n");
+    			//sbSelList.append("         ,cust_dtl cd                                                                                  ").append("\n");
+    			//sbSelList.append("         ,enpri_info ei                                                                                ").append("\n");
+    			//sbSelList.append("         ,enpri_dtl ed                                                                                 ").append("\n");
     			sbSelList.append("    WHERE 1=1                                                                                          ").append("\n");
     			sbSelList.append("      AND od.ords_num = td.ords_num                                                                    ").append("\n");
     			sbSelList.append("      AND od.list_num = td.list_num                                                                    ").append("\n");
     			sbSelList.append("      AND od.upri = td.upri                                                                            ").append("\n");
     			sbSelList.append("      AND od.buy_pri = td.buy_pri                                                                      ").append("\n");
-    			sbSelList.append("      AND td.comp_dati_cust >= sysdate-300                                                             ").append("\n");				
-    			sbSelList.append("      AND od.acep_id = cd.cust_id                                                                      ").append("\n");
-    			sbSelList.append("      AND cd.enpri_cd = ei.enpri_cd                                                                    ").append("\n");
-    			sbSelList.append("      AND cd.enpri_cd = ed.enpri_cd                                                                    ").append("\n");
-    			sbSelList.append("      AND cd.busip_seq = ed.busip_seq                                                                  ").append("\n");
+    			sbSelList.append("      AND td.comp_dati >= sysdate-300                                                                  ").append("\n");				
+    			//sbSelList.append("      AND od.acep_id = cd.cust_id                                                                      ").append("\n");
+    			//sbSelList.append("      AND cd.enpri_cd = ei.enpri_cd                                                                    ").append("\n");
+    			//sbSelList.append("      AND cd.enpri_cd = ed.enpri_cd                                                                    ").append("\n");
+    			//sbSelList.append("      AND cd.busip_seq = ed.busip_seq                                                                  ").append("\n");
     			sbSelList.append("      AND od.ords_kn IN ('003','005','013','015')                                                      ").append("\n");
-    			sbSelList.append("      AND NVL(od.asp_flag,'002') <> '001'                                                              ").append("\n");
+    			//sbSelList.append("      AND NVL(od.asp_flag,'002') <> '001'                                                              ").append("\n");
     			sbSelList.append("      AND td.comp_dati_happy IS NULL                                                                   ").append("\n");
     			sbSelList.append("      AND nvl(td.comp_kn,'---') <> 'ACC'                                                               ").append("\n");
     			sbSelList.append("      AND td.comp_dati_cust IS NULL                                                                    ").append("\n");
@@ -168,7 +169,7 @@ public class  Demon_asp_comp_20m
     			sbSelList.append("      AND od.list_num = td.list_num                                                                    ").append("\n");
     			sbSelList.append("      AND od.upri = td.upri                                                                            ").append("\n");
     			sbSelList.append("      AND od.buy_pri = td.buy_pri                                                                      ").append("\n");
-    			sbSelList.append("      AND td.comp_dati_cust >= sysdate-300                                                             ").append("\n");								
+    			sbSelList.append("      AND td.comp_dati >= sysdate-300                                                                  ").append("\n");								
     			sbSelList.append("      AND od.acep_id = cd.cust_id                                                                      ").append("\n");
     			sbSelList.append("      AND cd.enpri_cd = ei.enpri_cd                                                                    ").append("\n");
     			sbSelList.append("      AND cd.enpri_cd = ed.enpri_cd                                                                    ").append("\n");
@@ -177,7 +178,7 @@ public class  Demon_asp_comp_20m
     			sbSelList.append("      AND ( od.cust_ord_num LIKE '4500%'  OR                                                           ").append("\n");
     			sbSelList.append("            (ei.enpri_cd IN ('A43773') AND  od.cust_ord_num IS NULL ) )                                ").append("\n");
     			sbSelList.append("      AND od.ords_kn IN ('003','005','013','015')                                                      ").append("\n");
-    			sbSelList.append("      AND NVL(od.asp_flag,'002') <> '001'                                                              ").append("\n");
+    			//sbSelList.append("      AND NVL(od.asp_flag,'002') <> '001'                                                              ").append("\n");
     			sbSelList.append("      AND NVL(ed.tra_proc_ty,'002') = '001'                                                            ").append("\n");
     			sbSelList.append("      AND td.comp_dati_happy IS NULL                                                                   ").append("\n");
     			sbSelList.append("      AND nvl(td.comp_kn,'---') <> 'ACC'                                                               ").append("\n");
@@ -190,58 +191,58 @@ public class  Demon_asp_comp_20m
     			sbSelList.append("                     AND x.tra_seq = td.tra_seq                                                        ").append("\n");
     			sbSelList.append("                     AND x.ords_ty = td.ords_ty                                                        ").append("\n");
     			sbSelList.append("                     AND x.buy_sell_flag = '001')                                                      ").append("\n");
-    			sbSelList.append("    UNION ALL                                                                                          ").append("\n");
-    			sbSelList.append("   SELECT '2ASP' gbn                                                                                   ").append("\n");
-    			sbSelList.append("         ,td.ords_num                                                                                  ").append("\n");
-    			sbSelList.append("         ,td.list_num                                                                                  ").append("\n");
-    			sbSelList.append("         ,td.tra_seq                                                                                   ").append("\n");
-    			sbSelList.append("         ,td.tra_num                                                                                   ").append("\n");
-    			sbSelList.append("         ,TO_CHAR(td.comp_dati, 'yyyymmdd') comp_dati                                                  ").append("\n");
-    			sbSelList.append("         ,td.comp                                                                                      ").append("\n");
-    			sbSelList.append("         ,td.canl                                                                                      ").append("\n");
-    			sbSelList.append("         ,td.refu                                                                                      ").append("\n");
-    			sbSelList.append("         ,td.exch                                                                                      ").append("\n");
-    			sbSelList.append("         ,td.acep_man                                                                                  ").append("\n");
-    			sbSelList.append("         ,(SELECT MAX(TO_CHAR(y.tx_acco_dati, 'yyyymmdd'))                                             ").append("\n");
-    			sbSelList.append("             FROM acco_led x, bill_led y                                                               ").append("\n");
-    			sbSelList.append("            WHERE x.ords_num = td.ords_num                                                             ").append("\n");
-    			sbSelList.append("              AND x.list_num = td.list_num                                                             ").append("\n");
-    			sbSelList.append("              AND x.tra_seq = td.tra_seq                                                               ").append("\n");
-    			sbSelList.append("              AND x.ords_ty = td.ords_ty                                                               ").append("\n");
-    			sbSelList.append("              AND x.buy_sell_flag = '001'                                                              ").append("\n");
-    			sbSelList.append("              AND x.acco_num = y.acco_num) tx_acco_dati                                                ").append("\n");
-    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 1, 6) enpri_cd                                                      ").append("\n");
-    			sbSelList.append("         ,(SELECT x.db_user FROM enpri_info x                                                          ").append("\n");
-    			sbSelList.append("            WHERE x.enpri_cd = ed.enpri_cd) db_user                                                    ").append("\n");
-    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 8, 7) asp_ords_num                                                  ").append("\n");
-    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 16) asp_list_num                                                    ").append("\n");
-    			sbSelList.append("     FROM ords_dtl od                                                                                  ").append("\n");
-    			sbSelList.append("         ,tra_dtl td                                                                                   ").append("\n");
-    			sbSelList.append("         ,cust_dtl cd                                                                                  ").append("\n");
-    			sbSelList.append("         ,enpri_dtl ed                                                                                 ").append("\n");
-    			sbSelList.append("    WHERE 1=1                                                                                          ").append("\n");
-    			sbSelList.append("      AND od.ords_num = td.ords_num                                                                    ").append("\n");
-    			sbSelList.append("      AND od.list_num = td.list_num                                                                    ").append("\n");
-    			sbSelList.append("      AND od.upri = td.upri                                                                            ").append("\n");
-    			sbSelList.append("      AND od.buy_pri = td.buy_pri                                                                      ").append("\n");
-    			sbSelList.append("      AND td.comp_dati_cust >= sysdate-300                                                             ").append("\n");								
-    			sbSelList.append("      AND od.acep_id = cd.cust_id                                                                      ").append("\n");
-    			sbSelList.append("      AND cd.enpri_cd = ed.enpri_cd                                                                    ").append("\n");
-    			sbSelList.append("      AND cd.busip_seq = ed.busip_seq                                                                  ").append("\n");
-    			sbSelList.append("      AND od.ords_kn IN ('003','009')                                                                  ").append("\n");
-    			sbSelList.append("      AND od.asp_flag = '001'                                                                          ").append("\n");
-    			sbSelList.append("      AND NVL(ed.tra_proc_ty,'002') <> '001'                                                           ").append("\n");
-    			sbSelList.append("      AND td.comp_dati_happy IS NULL                                                                   ").append("\n");
-    			sbSelList.append("      AND nvl(td.comp_kn,'---') <> 'ACC'                                                               ").append("\n");
-    			sbSelList.append("      AND td.comp_dati_cust IS NULL                                                                    ").append("\n");
-    			sbSelList.append("      AND td.comp_dati IS NOT NULL                                                                     ").append("\n");
-    			sbSelList.append("      AND EXISTS (SELECT 'x'                                                                           ").append("\n");
-    			sbSelList.append("                    FROM acco_led x                                                                    ").append("\n");
-    			sbSelList.append("                   WHERE x.ords_num = td.ords_num                                                      ").append("\n");
-    			sbSelList.append("                     AND x.list_num = td.list_num                                                      ").append("\n");
-    			sbSelList.append("                     AND x.tra_seq = td.tra_seq                                                        ").append("\n");
-    			sbSelList.append("                     AND x.ords_ty = td.ords_ty                                                        ").append("\n");
-    			sbSelList.append("                     AND x.buy_sell_flag = '001')                                                      ").append("\n");
+//    			sbSelList.append("    UNION ALL                                                                                          ").append("\n");
+//    			sbSelList.append("   SELECT '2ASP' gbn                                                                                   ").append("\n");
+//    			sbSelList.append("         ,td.ords_num                                                                                  ").append("\n");
+//    			sbSelList.append("         ,td.list_num                                                                                  ").append("\n");
+//    			sbSelList.append("         ,td.tra_seq                                                                                   ").append("\n");
+//    			sbSelList.append("         ,td.tra_num                                                                                   ").append("\n");
+//    			sbSelList.append("         ,TO_CHAR(td.comp_dati, 'yyyymmdd') comp_dati                                                  ").append("\n");
+//    			sbSelList.append("         ,td.comp                                                                                      ").append("\n");
+//    			sbSelList.append("         ,td.canl                                                                                      ").append("\n");
+//    			sbSelList.append("         ,td.refu                                                                                      ").append("\n");
+//    			sbSelList.append("         ,td.exch                                                                                      ").append("\n");
+//    			sbSelList.append("         ,td.acep_man                                                                                  ").append("\n");
+//    			sbSelList.append("         ,(SELECT MAX(TO_CHAR(y.tx_acco_dati, 'yyyymmdd'))                                             ").append("\n");
+//    			sbSelList.append("             FROM acco_led x, bill_led y                                                               ").append("\n");
+//    			sbSelList.append("            WHERE x.ords_num = td.ords_num                                                             ").append("\n");
+//    			sbSelList.append("              AND x.list_num = td.list_num                                                             ").append("\n");
+//    			sbSelList.append("              AND x.tra_seq = td.tra_seq                                                               ").append("\n");
+//    			sbSelList.append("              AND x.ords_ty = td.ords_ty                                                               ").append("\n");
+//    			sbSelList.append("              AND x.buy_sell_flag = '001'                                                              ").append("\n");
+//    			sbSelList.append("              AND x.acco_num = y.acco_num) tx_acco_dati                                                ").append("\n");
+//    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 1, 6) enpri_cd                                                      ").append("\n");
+//    			sbSelList.append("         ,(SELECT x.db_user FROM enpri_info x                                                          ").append("\n");
+//    			sbSelList.append("            WHERE x.enpri_cd = ed.enpri_cd) db_user                                                    ").append("\n");
+//    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 8, 7) asp_ords_num                                                  ").append("\n");
+//    			sbSelList.append("         ,SUBSTR (od.cust_ord_num, 16) asp_list_num                                                    ").append("\n");
+//    			sbSelList.append("     FROM ords_dtl od                                                                                  ").append("\n");
+//    			sbSelList.append("         ,tra_dtl td                                                                                   ").append("\n");
+//    			sbSelList.append("         ,cust_dtl cd                                                                                  ").append("\n");
+//    			sbSelList.append("         ,enpri_dtl ed                                                                                 ").append("\n");
+//    			sbSelList.append("    WHERE 1=1                                                                                          ").append("\n");
+//    			sbSelList.append("      AND od.ords_num = td.ords_num                                                                    ").append("\n");
+//    			sbSelList.append("      AND od.list_num = td.list_num                                                                    ").append("\n");
+//    			sbSelList.append("      AND od.upri = td.upri                                                                            ").append("\n");
+//    			sbSelList.append("      AND od.buy_pri = td.buy_pri                                                                      ").append("\n");
+//    			sbSelList.append("      AND td.comp_dati >= sysdate-300                                                                  ").append("\n");								
+//    			sbSelList.append("      AND od.acep_id = cd.cust_id                                                                      ").append("\n");
+//    			sbSelList.append("      AND cd.enpri_cd = ed.enpri_cd                                                                    ").append("\n");
+//    			sbSelList.append("      AND cd.busip_seq = ed.busip_seq                                                                  ").append("\n");
+//    			sbSelList.append("      AND od.ords_kn IN ('003','009')                                                                  ").append("\n");
+//    			sbSelList.append("      AND od.asp_flag = '001'                                                                          ").append("\n");
+//    			sbSelList.append("      AND NVL(ed.tra_proc_ty,'002') <> '001'                                                           ").append("\n");
+//    			sbSelList.append("      AND td.comp_dati_happy IS NULL                                                                   ").append("\n");
+//    			sbSelList.append("      AND nvl(td.comp_kn,'---') <> 'ACC'                                                               ").append("\n");
+//    			sbSelList.append("      AND td.comp_dati_cust IS NULL                                                                    ").append("\n");
+//    			sbSelList.append("      AND td.comp_dati IS NOT NULL                                                                     ").append("\n");
+//    			sbSelList.append("      AND EXISTS (SELECT 'x'                                                                           ").append("\n");
+//    			sbSelList.append("                    FROM acco_led x                                                                    ").append("\n");
+//    			sbSelList.append("                   WHERE x.ords_num = td.ords_num                                                      ").append("\n");
+//    			sbSelList.append("                     AND x.list_num = td.list_num                                                      ").append("\n");
+//    			sbSelList.append("                     AND x.tra_seq = td.tra_seq                                                        ").append("\n");
+//    			sbSelList.append("                     AND x.ords_ty = td.ords_ty                                                        ").append("\n");
+//    			sbSelList.append("                     AND x.buy_sell_flag = '001')                                                      ").append("\n");
     			sbSelList.append("    UNION ALL                                                                                          ").append("\n");    			
     			sbSelList.append("   SELECT '3BACK' gbn                                                                                  ").append("\n");
     			sbSelList.append("         ,A.ords_num                                                                                   ").append("\n");
@@ -271,7 +272,7 @@ public class  Demon_asp_comp_20m
     			sbSelList.append("      AND b.acep_id = d.cust_id                                                                        ").append("\n");
     			sbSelList.append("      AND d.enpri_cd = c.enpri_cd                                                                      ").append("\n");
     			sbSelList.append("      AND d.busip_seq = c.busip_seq                                                                    ").append("\n");
-    			sbSelList.append("      AND NVL(b.asp_flag,'002') <> '001'                                                               ").append("\n");
+    			//sbSelList.append("      AND NVL(b.asp_flag,'002') <> '001'                                                               ").append("\n");
     			sbSelList.append("      AND NVL(c.tra_proc_ty,'002') <> '001'                                                            ").append("\n");
     			sbSelList.append("      AND A.comp_kn = 'ACC'                                                                            ").append("\n");
     			sbSelList.append("      AND A.comp_dati_cust >= sysdate-300                                                              ").append("\n");
@@ -498,200 +499,11 @@ public class  Demon_asp_comp_20m
 										String strAspQry = sbSetAspTraInfo.toString(); 
 										
 										if("keps".equals(db_user)){
-											log.Write(log_flag, prgm_nm, "keps asp comp_dati data select!!");
-							    			StringBuffer sbSelKepsCompYn  = new StringBuffer();
-							    			sbSelKepsCompYn.append("  SELECT count(*) cnt      ").append("\n");
-							    			sbSelKepsCompYn.append("    FROM tra_dtl           ").append("\n");
-							    			sbSelKepsCompYn.append("   WHERE ords_num = ?      ").append("\n");
-							    			sbSelKepsCompYn.append("     AND list_num = ?      ").append("\n");
-							    			sbSelKepsCompYn.append("     AND tra_seq = ?       ").append("\n");
-							    			sbSelKepsCompYn.append("     AND comp_dati IS NULL ").append("\n");
 											
-							    			String aspQry = sbSelKepsCompYn.toString(); 			
-											log.Write(log_flag, prgm_nm, aspQry);
-											psKeps = connKeps.prepareStatement(aspQry);
-											
-											pSeq = 1;
-											psKeps.setString(pSeq++, asp_ords_num);
-											psKeps.setString(pSeq++, asp_list_num);
-											psKeps.setString(pSeq++, asp_tra_seq);
-											
-											rsKeps = psKeps.executeQuery();
-											
-											int iAspCompDatiCnt = 0;
-											if(rsKeps != null){
-												log.Write(log_flag, prgm_nm, "keps asp comp_dati data!!");
-												
-												while(rsKeps.next()){
-													iAspCompDatiCnt = rsKeps.getInt("cnt");
-												}
-											}else{
-												throw new SQLException("keps asp comp_dati select error");
-											}
-											
-											if(iAspCompDatiCnt > 0){
-												log.Write(log_flag, prgm_nm, "keps asp tra comp procedure call!!");
-												csKeps = connKeps.prepareCall(strAspQry);
-												
-												pSeq = 1;
-												csKeps.setString(pSeq++, ords_num);
-												csKeps.setString(pSeq++, asp_ords_num);
-												csKeps.setString(pSeq++, asp_list_num);
-												csKeps.setString(pSeq++, asp_tra_num );
-												csKeps.setString(pSeq++, asp_tra_seq );
-												csKeps.setString(pSeq++, comp );
-												csKeps.setString(pSeq++, canl );
-												csKeps.setString(pSeq++, refu );
-												csKeps.setString(pSeq++, exch );
-												csKeps.setString(pSeq++, tx_acco_dati );
-												csKeps.setString(pSeq++, acep_man );	       
-												csKeps.registerOutParameter(pSeq++, java.sql.Types.VARCHAR);		
-													
-												csKeps.execute();
-												
-												log.Write(log_flag, prgm_nm, "keps asp tra comp procedure call complete!!");
-												
-												String sResAsp    = csKeps.getString(12);
-												
-												log.Write(log_flag, prgm_nm,sResAsp);
-					
-												if(!"SUCC".equals(sResAsp)){
-													connKeps.rollback();
-													throw new SQLException("keps asp tra comp procedure data error");
-												}else{
-													connKeps.commit();
-												}
-											}
 										}else if("NEPS".equals(db_user)){
-											log.Write(log_flag, prgm_nm, "neps asp comp_dati data select!!");
-							    			StringBuffer sbSelNepsCompYn  = new StringBuffer();
-							    			sbSelNepsCompYn.append("  SELECT count(*) cnt      ").append("\n");
-							    			sbSelNepsCompYn.append("    FROM tra_dtl           ").append("\n");
-							    			sbSelNepsCompYn.append("   WHERE ords_num = ?      ").append("\n");
-							    			sbSelNepsCompYn.append("     AND list_num = ?      ").append("\n");
-							    			sbSelNepsCompYn.append("     AND tra_seq = ?       ").append("\n");
-							    			sbSelNepsCompYn.append("     AND comp_dati IS NULL ").append("\n");
 											
-							    			String aspQry = sbSelNepsCompYn.toString(); 			
-											log.Write(log_flag, prgm_nm, aspQry);
-											psNeps = connNeps.prepareStatement(aspQry);
-											
-											pSeq = 1;
-											psNeps.setString(pSeq++, asp_ords_num);
-											psNeps.setString(pSeq++, asp_list_num);
-											psNeps.setString(pSeq++, asp_tra_seq);
-											
-											rsNeps = psNeps.executeQuery();
-											
-											int iAspCompDatiCnt = 0;
-											if(rsNeps != null){
-												log.Write(log_flag, prgm_nm, "neps asp comp_dati data!!");
-												
-												while(rsNeps.next()){
-													iAspCompDatiCnt = rsNeps.getInt("cnt");
-												}
-											}else{
-												throw new SQLException("Neps asp comp_dati select error");
-											}
-											
-											if(iAspCompDatiCnt > 0){
-												log.Write(log_flag, prgm_nm, "neps asp tra comp procedure call!!");
-												csNeps = connNeps.prepareCall(strAspQry);
-												
-												pSeq = 1;
-												csNeps.setString(pSeq++, ords_num);
-												csNeps.setString(pSeq++, asp_ords_num);
-												csNeps.setString(pSeq++, asp_list_num);
-												csNeps.setString(pSeq++, asp_tra_num );
-												csNeps.setString(pSeq++, asp_tra_seq );
-												csNeps.setString(pSeq++, comp );
-												csNeps.setString(pSeq++, canl );
-												csNeps.setString(pSeq++, refu );
-												csNeps.setString(pSeq++, exch );
-												csNeps.setString(pSeq++, tx_acco_dati );
-												csNeps.setString(pSeq++, acep_man );       
-												csNeps.registerOutParameter(pSeq++, java.sql.Types.VARCHAR);	
-													
-												csNeps.execute();
-												
-												log.Write(log_flag, prgm_nm, "Neps asp tra comp procedure call complete!!");
-												
-												String sResAsp    = csNeps.getString(12);
-												
-												log.Write(log_flag, prgm_nm,sResAsp);
-					
-												if(!"SUCC".equals(sResAsp)){
-													connNeps.rollback();
-													throw new SQLException("neps asp tra comp procedure data error");
-												}else{
-													connNeps.commit();
-												}
-											}
 										}else if("seps".equals(db_user)){
-											log.Write(log_flag, prgm_nm, "Seps asp comp_dati data select!!");
-							    			StringBuffer sbSelSepsCompYn  = new StringBuffer();
-							    			sbSelSepsCompYn.append("  SELECT count(*) cnt      ").append("\n");
-							    			sbSelSepsCompYn.append("    FROM tra_dtl           ").append("\n");
-							    			sbSelSepsCompYn.append("   WHERE ords_num = ?      ").append("\n");
-							    			sbSelSepsCompYn.append("     AND list_num = ?      ").append("\n");
-							    			sbSelSepsCompYn.append("     AND tra_seq = ?       ").append("\n");
-							    			sbSelSepsCompYn.append("     AND comp_dati IS NULL ").append("\n");
 											
-							    			String aspQry = sbSelSepsCompYn.toString(); 			
-											log.Write(log_flag, prgm_nm, aspQry);
-											psSeps = connSeps.prepareStatement(aspQry);
-											
-											pSeq = 1;
-											psSeps.setString(pSeq++, asp_ords_num);
-											psSeps.setString(pSeq++, asp_list_num);
-											psSeps.setString(pSeq++, asp_tra_seq);
-											
-											rsSeps = psSeps.executeQuery();
-											
-											int iAspCompDatiCnt = 0;
-											if(rsSeps != null){
-												log.Write(log_flag, prgm_nm, "Seps asp comp_dati data!!");
-												
-												while(rsSeps.next()){
-													iAspCompDatiCnt = rsSeps.getInt("cnt");
-												}
-											}else{
-												throw new SQLException("Seps asp comp_dati select error");
-											}
-											
-											if(iAspCompDatiCnt > 0){
-												log.Write(log_flag, prgm_nm, "seps asp tra comp procedure call!!");
-												csSeps = connSeps.prepareCall(strAspQry);
-												
-												pSeq = 1;
-												csSeps.setString(pSeq++, ords_num);
-												csSeps.setString(pSeq++, asp_ords_num);
-												csSeps.setString(pSeq++, asp_list_num);
-												csSeps.setString(pSeq++, asp_tra_num );
-												csSeps.setString(pSeq++, asp_tra_seq );
-												csSeps.setString(pSeq++, comp );
-												csSeps.setString(pSeq++, canl );
-												csSeps.setString(pSeq++, refu );
-												csSeps.setString(pSeq++, exch );
-												csSeps.setString(pSeq++, tx_acco_dati );
-												csSeps.setString(pSeq++, acep_man );
-												csSeps.registerOutParameter(pSeq++, java.sql.Types.VARCHAR);	
-													
-												csSeps.execute();
-												
-												log.Write(log_flag, prgm_nm, "Seps asp tra comp procedure call complete!!");
-												
-												String sResAsp    = csSeps.getString(12);
-												
-												log.Write(log_flag, prgm_nm,sResAsp);
-					
-												if(!"SUCC".equals(sResAsp)){
-													connSeps.rollback();
-													throw new SQLException("seps asp tra comp procedure data error");
-												}else{
-													connSeps.commit();
-												}
-											}
 										}else{
 											throw new SQLException("there no db_user for "+db_user+"!!"+db.ERR_MSG);
 										}
@@ -802,9 +614,9 @@ public class  Demon_asp_comp_20m
             		System.out.println(e);
                     e.printStackTrace();
                     db.rollback();
-                    if(connKeps != null) connKeps.rollback();
-                    if(connNeps != null) connNeps.rollback();
-                    if(connSeps != null) connSeps.rollback();
+                    //if(connKeps != null) connKeps.rollback();
+                    //if(connNeps != null) connNeps.rollback();
+                    //if(connSeps != null) connSeps.rollback();
                     
     				sDemonLog = "  INSERT INTO demon_log(reg_dati, prog_nm, memo, reg_day, status , err_msg)  "
       						 + "  VALUES (TO_CHAR(SYSDATE,'YYYYMMDD'),'Demon_asp_comp_20m_kimjs','END',SYSDATE, 'ERR', '"+e.getMessage()+"' ) ";	
@@ -822,9 +634,9 @@ public class  Demon_asp_comp_20m
         			System.out.println(e);
                     e.printStackTrace();
                     db.rollback();
-                    if(connKeps != null) connKeps.rollback();
-                    if(connNeps != null) connNeps.rollback();
-                    if(connSeps != null) connSeps.rollback();
+                    //if(connKeps != null) connKeps.rollback();
+                    //if(connNeps != null) connNeps.rollback();
+                    //if(connSeps != null) connSeps.rollback();
                     
                     sDemonLog = "  INSERT INTO demon_log(reg_dati, prog_nm, memo, reg_day, status , err_msg)  "
                     		+ "  VALUES (TO_CHAR(SYSDATE,'YYYYMMDD'),'Demon_asp_comp_20m_kimjs','END',SYSDATE, 'ERR', '"+e.getMessage()+"' ) ";	
