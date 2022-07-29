@@ -1,7 +1,0 @@
-#!/bin/sh
-# Write Log Start
-
-# Log date make
-
-# Write Log End
-echo "End /user/home/mro/db_demon/logs/sebang_Demon.sh :" 
